@@ -1,29 +1,32 @@
 import React from "react"
-import { Link } from "gatsby"
+import { Link, useStaticQuery, graphql  } from "gatsby"
 import { useForm, usePlugin, useCMS, TinaProvider, TinaCMS } from 'tinacms'
 import { InlineForm, InlineTextarea, InlineBlocks, BlocksControls, InlineImage  } from 'react-tinacms-inline'
+import { useJsonForm } from 'gatsby-tinacms-json'
 import styled from 'styled-components'
 import Layout from "../components/layout"
 import Image from "../components/image"
 import SEO from "../components/seo"
-import data from './data/data.json';
+
 
 const IndexPage = () => {
-  const cms = new TinaCMS({
-    enabled: true,
-    sidebar: {
-      hidden: true,
-    },
-    toolbar: { hidden: false },
-  });
+  
+ 
+  // const cms = new TinaCMS({
+  //   enabled: true,
+  //   sidebar: {
+  //     hidden: true,
+  //   },
+  //   toolbar: { hidden: false },
+  // });
 
   return (
-    <TinaProvider cms={cms}>
+  
     <Layout>
       <SEO title="Home" />
       <RouterView></RouterView>
     </Layout>
-    </TinaProvider>
+
   )
 }
 
@@ -171,11 +174,14 @@ const paragraphBlock = {
   },
 }
 const heroBlock = {
-  Component: ({ index, data }) => (
-    <BlocksControls index={index} focusRing={{ offset: 0 }} insetControls>
-      <Hero {...data} />
-    </BlocksControls>
-  ),
+  Component: ({ index, data }) => {
+    console.log(index, data)
+    return (
+      <BlocksControls index={index} focusRing={{ offset: 0 }} insetControls>
+        <Hero {...data} />
+      </BlocksControls>
+    )
+  },
   template: {
     label: 'Hero',
     defaultItem: {
@@ -214,22 +220,56 @@ const HOME_BLOCKS = {
 }
 
 export function RouterView() {
-  const cms = useCMS()
+  // const cms = useCMS()
+  const data = useStaticQuery(graphql`
+   query navQuery {
+  dataJson(fileRelativePath: {eq: "/src/pages/data/data.json"}) {
+    headline
+    subtext
+    blocks {
+      _template
+      left {
+        src
+        alt
+      }
+      right {
+        src
+        alt
+      }
+      background_color
+      text_color
+      headline
+      subtext
+      align
+      text
+      features {
+        _template
+        heading
+        supporting_copy
+      }
+    }
+    rawJson
+    fileRelativePath
+  }
+}
+    `)
   const formConfig = {
     id: './data/data.json',
-    initialValues: data,
+    initialValues: data.dataJson,
     onSubmit() {
-      cms.alerts.success('Saved!')
+      alert('Saved!')
     },
+    fileRelativePath: data.dataJson.fileRelativePath,
+    rawJson: data.dataJson.rawJson
   }
 
-  const [pageData, form] = useForm(formConfig)
-  console.log(HOME_BLOCKS)
+  const [pageData, form] = useJsonForm(formConfig)
+
   usePlugin(form)
+
   return (
     <div className='RouterView'>
       <InlineForm form={form}>
-
         <InlineBlocks name="blocks" blocks={HOME_BLOCKS} />
       </InlineForm>
     </div>
@@ -301,7 +341,7 @@ function FeatureList({ index }) {
       <div className="wrapper">
         <StyledInlineBlocks name="features" blocks={FEATURE_BLOCKS} direction="horizontal" className="feature-list"/>
       </div>
-    </BlocksControls>
+    </BlocksControls >
   )
 }
 

@@ -5,6 +5,26 @@ module.exports = {
     author: `@gatsbyjs`,
   },
   plugins: [
+    {
+      resolve: `gatsby-source-filesystem`,
+      options: {
+        name: `content`,
+        path: `${__dirname}/src/pages/data`,
+      },
+    },
+    {
+      resolve: 'gatsby-plugin-tinacms',
+      options: {
+        enabled: true,
+        sidebar: {
+          hidden: true,
+        },
+        toolbar: { hidden: false },
+        plugins: ["gatsby-tinacms-git"],
+      },
+    },
+    `gatsby-tinacms-json`,
+    `gatsby-transformer-json`,
     `gatsby-plugin-react-helmet`,
     {
       resolve: `gatsby-source-filesystem`,
