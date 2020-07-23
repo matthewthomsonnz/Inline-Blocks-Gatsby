@@ -11,7 +11,6 @@ import SEO from "../components/seo"
 
 const IndexPage = () => {
   
- 
   // const cms = new TinaCMS({
   //   enabled: true,
   //   sidebar: {
@@ -21,12 +20,10 @@ const IndexPage = () => {
   // });
 
   return (
-  
     <Layout>
       <SEO title="Home" />
       <RouterView></RouterView>
     </Layout>
-
   )
 }
 
@@ -222,48 +219,49 @@ const HOME_BLOCKS = {
 export function RouterView() {
   // const cms = useCMS()
   const data = useStaticQuery(graphql`
-   query navQuery {
-  dataJson(fileRelativePath: {eq: "/src/pages/data/data.json"}) {
-    headline
-    subtext
-    blocks {
-      _template
-      left {
-        src
-        alt
-      }
-      right {
-        src
-        alt
-      }
-      background_color
-      text_color
+  query navQuery {
+    dataJson(fileRelativePath: {eq: "/src/pages/data/data.json"}) {
       headline
       subtext
-      align
-      text
-      features {
+      blocks {
         _template
-        heading
-        supporting_copy
+        left {
+          src
+          alt
+        }
+        right {
+          src
+          alt
+        }
+        background_color
+        text_color
+        headline
+        subtext
+        align
+        text
+        features {
+          _template
+          heading
+          supporting_copy
+        }
       }
+      rawJson
+      fileRelativePath
     }
-    rawJson
-    fileRelativePath
   }
-}
     `)
-  const formConfig = {
-    id: './data/data.json',
-    initialValues: data.dataJson,
-    onSubmit() {
-      alert('Saved!')
-    },
-    fileRelativePath: data.dataJson.fileRelativePath,
-    rawJson: data.dataJson.rawJson
-  }
+    
+  // const formConfig = {
+  //   id: './data/data.json',
+  //   initialValues: data.dataJson,
+  //   onSubmit() {
+  //     alert('Saved!')
+  //   },
+  //   fileRelativePath: data.dataJson.fileRelativePath,
+  //   rawJson: data.dataJson.rawJson
+  // }
 
-  const [pageData, form] = useJsonForm(formConfig)
+  const [pageData, form] = useJsonForm(data.dataJson)
 
   usePlugin(form)
 
@@ -275,8 +273,6 @@ export function RouterView() {
     </div>
   );
 }
-
-
 
 export function Hero({ text_color, background_color, align }) {
   return (
@@ -350,6 +346,3 @@ const StyledInlineBlocks = styled(InlineBlocks)`
   grid-template-columns: 1fr 1fr 1fr;
   grid-gap: 3rem;
   grid-template-rows: auto;`
-/**
- * 2. Define the FeatureList Block
- */
