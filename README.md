@@ -1,5 +1,5 @@
 
-#Gatsby + TinaCMS inline-blocks via useJsonForm
+# Gatsby + TinaCMS inline-blocks via useJsonForm
 
 ## This is a temporary repo for a forum post:
 
