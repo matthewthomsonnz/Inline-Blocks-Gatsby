@@ -1,9 +1,0 @@
-Hey guys,
-
-I just followed the 'Working with Inline Blocks' tutorial using Gatsby instead of create-react-app  All works great except I can't get data changes to save.
-
-Could anyone please help?
-
-Here is my working repo https://github.com/matthewthomsonnz/Inline-Blocks-Gatsby (100% of code from tutorial is crammed into /src/pages/index.js)
-
-I've tried
