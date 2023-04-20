@@ -10,7 +10,7 @@
     "gatsby-plugin-manifest": "^2.4.14",
     "gatsby-plugin-offline": "^3.2.13",
     "gatsby-plugin-react-helmet": "^3.3.6",
-    "gatsby-plugin-sharp": "^2.6.14",
+    "gatsby-plugin-sharp": "^4.25.1",
     "gatsby-plugin-tinacms": "^0.2.4",
     "gatsby-source-filesystem": "^2.3.14",
     "gatsby-tinacms-git": "^0.5.6",
